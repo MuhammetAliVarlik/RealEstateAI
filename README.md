@@ -242,6 +242,21 @@ weighted avg       0.63      0.61      0.62      161
   4. `predict_investment`
   5. `view_dataframe`
 
+##### 🧠 AI Agent
+
+Bu projede kullanılan LLM tabanlı AI agent, konuşma geçmişini hatırlama yeteneğine sahiptir. Böylece:
+
+- Önceki mesajları takip eder
+
+- Soru-cevap bağlamını korur
+
+- Gerekli bilgileri önceki yanıtlarla ilişkilendirerek daha doğal ve tutarlı cevaplar üretir
+
+Örnek:
+
+> Bir kullanıcı önce ev fiyatı tahmini ister, ardından `"bu fiyat normal mi?"` diye sorduğunda, agent önceki tahmini hatırlayarak anlamlı bir karşılaştırma yapabilir.
+
+ > Bu hafıza mekanizması, LangChain’in `RunnableWithMessageHistory` yapısıyla sağlanır.
 ##### ✅ Prompt Kuralları:
 
 * Eksik bilgi varsa user'dan istenir.
@@ -324,7 +339,23 @@ Do you need more information or help with something else?
 ```
 
 ---
+### 📱 Uygulama İçi Görüntüler
+#### Anasayfa
+![alt text](docs/screenshoots/MainScreen.png)
+#### Agent Çıktısı
+![alt text](docs/screenshoots/AgentOutput.png)
+#### Ev Fiyat Tahmini Sayfası
+![alt text](docs/screenshoots/HomePricePage.png)
+#### Anomali Tespiti Sayfası
+![alt text](docs/screenshoots/AnomalyPage.png)
+#### Ev Tipi Sayfası
+![alt text](docs/screenshoots/HomeTypePage.png)
+#### Yatırıma Uygunluk Sayfası
+![alt text](docs/screenshoots/IsEligiblePage.png)
+#### Veri İnceleme Sayfası
+![alt text](docs/screenshoots/DataFramePage.png)
 
+---
 ### 📅 Gelecekteki Geliştirmeler
 
 * Kullanıcı girişi/kimlik doğrulama
@@ -336,4 +367,69 @@ Do you need more information or help with something else?
 
 ---
 
+# ⚙️ Kurulum
+Bu projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları takip edebilirsiniz.
 
+### 1. 📦 Depoyu Klonlayın
+```bash
+git clone https://github.com/MuhammetAliVarlik/RealEstateAI
+cd RealEstateAI
+```
+### 2. 🐳 Docker ile Başlatma (Tavsiye Edilen)
+
+Tüm bileşenler (Ollama, FastAPI, Streamlit) Docker Compose ile çalıştırılır:
+
+> **Not:** Sisteminizde Docker ve Docker Compose kurulu olmalıdır.
+
+```bash
+docker-compose up --build
+```
+
+* Uygulama, varsayılan olarak `http://localhost:8501` adresinde çalışır.
+* İlk başlatma sırasında modellerin ve bağımlılıkların yüklenmesi zaman alabilir.
+
+---
+
+## ✅ Sonuç
+
+Bu proje, İstanbul’daki satılık konut verilerini çok modelli bir yapay zeka sistemi ile analiz eden, hafıza destekli doğal dil arayüzü sunan modern bir emlak danışmanı prototipidir. Kullanıcıların yapay zeka modelleri çıktılarıyla ve veri setiyle konuşabilmesi hedeflenerek üretilmiştir.
+
+### 🔍 Makine Öğrenmesi Modellerinin Genel Değerlendirmesi
+
+| Model Türü                       | Kullanılan Yöntem | Güçlü Yönler                                                                 | Zayıf Yönler                                                                |
+| -------------------------------- | ----------------- | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| **Fiyat Tahmin Modeli**          | XGBoost Regressor | Yüksek R² skoru (0.81), hızlı tahminler, kapsamlı hiperparametre ayarı       | MAE ve MSE değerleri bazı uç örneklerde yüksek → potansiyel veri dağılımı dengesizliği |
+| **Anomali Tespiti**              | Isolation Forest  | Etiketlenmemiş veride anomali tespiti, hızlı ve denetimsiz yapı              | Veri etiketsiz; anomali istatistiki olarak belirleniyor                         |
+| **Kümeleme (Ev Tipi Belirleme)** | KMeans            | Anlamlı segmentasyon, görselleştirilebilirlik (PCA), kullanıcıya yorum sunar | Küme yorumlaması domain uzmanlığı gerektiriyor                              |
+| **Yatırım Uygunluk Sınıflaması** | RidgeClassifier   | Düşük işlem süresi, yorumlanabilir sonuçlar                                  | Dengesiz sınıflar nedeniyle sınırlı doğruluk (F1 ≈ 0.61)                    |
+
+Bu modellerin her biri, emlak alanında farklı bir ihtiyaca çözüm üretmek üzere optimize edilmiştir ve LLM kullanımına uygun araçlar haline getirilmiştir.
+
+### 🧠 Hafıza Destekli AI Agent ile Etkileşim
+
+LangChain + Qwen2.5 tabanlı AI agent:
+
+* Kullanıcının önceki girdilerini hatırlayarak bağlamsal yanıtlar üretir
+* Gerekli bilgi eksikse kullanıcıdan isteme mantığına sahiptir
+* Beş farklı aracı (tool) çağırarak makine öğrenmesi modellerini yönlendirir
+
+Bu yaklaşım, veri bilimini doğal dil seviyesinde erişilebilir kılar.
+
+### 🧱 Teknik Altyapı ve Dağıtılabilirlik
+
+* Streamlit (UI) + FastAPI (API) + Docker (Servisler) üçlüsü sayesinde sistem kolayca kurulur ve dağıtılabilirsunar
+
+---
+## 🔗 Linkler
+
+| İçerik                       | Bağlantı                                                                                     |
+| ---------------------------- | -------------------------------------------------------------------------------------------- |
+| 📂 Proje Deposu              | [GitHub – RealEstatAI](https://github.com/MuhammetAliVarlik/RealEstateAI)                |
+| 🏦 Kaggle Linki             | [Kaggle – Istanbu Real Estate Ml Models](https://www.kaggle.com/code/muhammetalivarlik/istanbul-real-estate-ml-models)                |
+| 📊 Kullanılan Veri Seti      | [Kaggle – House Price Dataset](https://www.kaggle.com/datasets/aselasel/house-price-dataset) |
+| 🧠 Ollama (Qwen2.5 Modeli)   | [Ollama Resmi Sitesi](https://ollama.com/)                                                   |
+| 🧪 LangChain Dokümantasyonu  | [LangChain Docs](https://docs.langchain.com/)                                                |
+| 🖥️ Streamlit Dokümantasyonu | [Streamlit.io](https://streamlit.io)                                                         |
+| ⚡ FastAPI Dokümantasyonu     | [FastAPI.io](https://fastapi.tiangolo.com/)                                                  |
+
+---
