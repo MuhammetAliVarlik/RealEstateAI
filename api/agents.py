@@ -4,7 +4,6 @@ from langchain.agents import AgentExecutor, create_tool_calling_agent,create_rea
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.runnables import RunnableConfig
-from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from tools.home_price_tool import predict_home_price
 from tools.anomaly_detection_tool import predict_anomalies
 from tools.home_type_tool import predict_home_type
@@ -20,7 +19,6 @@ model = ChatOllama(
     model="qwen2.5:latest",
     base_url=BASE_URL,
     streaming=True,
-    verbose=True
 )
 prompt = ChatPromptTemplate.from_messages([
     (
@@ -96,7 +94,7 @@ You have 5 tools to help users with properties located in Istanbul:
 
 tools = [predict_home_price,predict_anomalies,predict_home_type,predict_investment,view_dataframe]
 agent = create_tool_calling_agent(model, tools, prompt)
-agent_executor = AgentExecutor(agent=agent, tools=tools,verbose=True)
+agent_executor = AgentExecutor(agent=agent, tools=tools)
 
 session_id = str(uuid.uuid4())
 memory = ChatMessageHistory(session_id=session_id)
@@ -110,8 +108,10 @@ agent_with_chat_history = RunnableWithMessageHistory(
 )
 
 async def ask(question: str):
-    config = RunnableConfig(configurable={"session_id":session_id})
+    config = RunnableConfig(configurable={"session_id": session_id})
     content = ""
     async for chunk in agent_with_chat_history.astream({"input": question}, config=config):
-        content += chunk.get("output")
-        yield f"{content}"
+        output = chunk.get("output")
+        if output is not None:
+            content += output
+            yield content
