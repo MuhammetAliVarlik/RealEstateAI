@@ -45,10 +45,8 @@ if prompt := st.chat_input("Mesajınızı yazın..."):
                     parsed = json.loads(collected)
                     placeholder.markdown(parsed.get("response", collected))
                 except json.JSONDecodeError:
-                    # Henüz tamamlanmamışsa, geçici olarak göster
                     placeholder.markdown(collected)
 
-    # Son halini parse edip ekle
     try:
         parsed = json.loads(collected)
         final_response = parsed.get("response", collected)

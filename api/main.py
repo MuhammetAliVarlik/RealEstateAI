@@ -3,11 +3,7 @@ from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional, List, Union
 from agents import ask
-from tools.home_price_tool import predict_home_price
-from tools.anomaly_detection_tool import predict_anomalies
-from tools.home_type_tool import predict_home_type
-from tools.investment_tool import predict_investment
-from tools.dataframe_tool import view_dataframe
+from tools import home_type_tool,anomaly_detection_tool,dataframe_tool,home_price_tool,investment_tool
 import json
 import warnings
 warnings.filterwarnings("ignore")

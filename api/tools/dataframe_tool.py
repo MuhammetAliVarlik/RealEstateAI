@@ -96,7 +96,6 @@ def view_dataframe(
 
 
     try:
-        # Burada pandas işlemleri ve dönüşler olacak, örnek:
         results = {}
         df_view = df.copy()
         print(df_view.head())

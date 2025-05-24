@@ -277,6 +277,8 @@ services:
 
 * Streamlit → FastAPI → Ollama şeklinde iş akışı vardır.
 
+![alt text](docs/diagrams/project_diagram.svg)
+
 ---
 
 ### 🔄 Veri Akışı Senaryosu ve Uygulama İçi Görüntüler
@@ -404,20 +406,6 @@ Bu proje, İstanbul’daki satılık konut verilerini çok modelli bir yapay zek
 | **Yatırım Uygunluk Sınıflaması** | RidgeClassifier   | Düşük işlem süresi, yorumlanabilir sonuçlar                                  | Dengesiz sınıflar nedeniyle sınırlı doğruluk (F1 ≈ 0.61)                    |
 
 Bu modellerin her biri, emlak alanında farklı bir ihtiyaca çözüm üretmek üzere optimize edilmiştir ve LLM kullanımına uygun araçlar haline getirilmiştir.
-
-### 🧠 Hafıza Destekli AI Agent ile Etkileşim
-
-LangChain + Qwen2.5 tabanlı AI agent:
-
-* Kullanıcının önceki girdilerini hatırlayarak bağlamsal yanıtlar üretir
-* Gerekli bilgi eksikse kullanıcıdan isteme mantığına sahiptir
-* Beş farklı aracı (tool) çağırarak makine öğrenmesi modellerini yönlendirir
-
-Bu yaklaşım, veri bilimini doğal dil seviyesinde erişilebilir kılar.
-
-### 🧱 Teknik Altyapı ve Dağıtılabilirlik
-
-* Streamlit (UI) + FastAPI (API) + Docker (Servisler) üçlüsü sayesinde sistem kolayca kurulur ve dağıtılabilirsunar
 
 ---
 ## 🔗 Linkler

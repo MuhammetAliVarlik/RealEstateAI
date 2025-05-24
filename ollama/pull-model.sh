@@ -17,8 +17,8 @@ echo "✅ Ollama is ready."
 
 # Is the model installed?
 if ! ollama list | grep -q "qwen2.5"; then
-  echo "🔽 Pulling qwen2.5:3b model..."
-  ollama pull qwen2.5:3b
+  echo "🔽 Pulling qwen2.5:7b model..."
+  ollama pull qwen2.5:7b
 else
   echo "📦 Model qwen2.5 already exists. Skipping download."
 fi
