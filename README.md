@@ -384,7 +384,7 @@ Tüm bileşenler (Ollama, FastAPI, Streamlit) Docker Compose ile çalıştırıl
 > **Not:** Sisteminizde Docker ve Docker Compose kurulu olmalıdır.
 
 ```bash
-docker-compose up --build
+docker compose up --build -d
 ```
 
 * Uygulama, varsayılan olarak `http://localhost:8501` adresinde çalışır.
